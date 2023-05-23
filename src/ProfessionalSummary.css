@@ -1,0 +1,16 @@
+.professional-summary-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .summary-textarea {
+    width: 100%;
+    resize: vertical;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
