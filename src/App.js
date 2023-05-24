@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import React, { useState } from "react";
+import { Container, Grid } from "@mui/material";
 
-import PhotoUploader from './PhotoUploader';
-import CVForm from './CVForm';
-import ProfessionalSummary from './ProfessionalSummary';
-import WorkExperience from './WorkExperience';
-import logo from './logo_laborum.png';
+import PhotoUploader from "./PhotoUploader";
+import CVForm from "./CVForm";
+import ProfessionalSummary from "./ProfessionalSummary";
+import WorkExperience from "./WorkExperience";
+import AcademicFormation from "./AcademicFormation";
+import Knowledge from "./Knowledge";
+import ExtraActivities from "./ExtraActivities";
+import TalksAndSeminars from "./TalksAndSeminars";
+import logo from "./logo_laborum.png";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   const [photo, setPhoto] = useState(null);
   const [formData, setFormData] = useState(null);
-  const [summary, setSummary] = useState('');
+  const [summary, setSummary] = useState("");
 
   const handlePhotoUpload = (file) => {
     setPhoto(file);
@@ -37,13 +41,25 @@ function App() {
           <PhotoUploader onUpload={handlePhotoUpload} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CVForm onSubmit={handleFormSubmit} />  
+          <CVForm onSubmit={handleFormSubmit} />
         </Grid>
         <Grid item xs={12}>
           <ProfessionalSummary onChange={handleSummaryChange} />
         </Grid>
         <Grid item xs={12}>
+          <AcademicFormation />
+        </Grid>
+        <Grid item xs={12}>
           <WorkExperience />
+        </Grid>
+        <Grid item xs={12}>
+          <Knowledge />
+        </Grid>
+        <Grid item xs={12}>
+          <ExtraActivities />
+        </Grid>
+        <Grid item xs={12}>
+          <TalksAndSeminars />
         </Grid>
       </Grid>
     </Container>

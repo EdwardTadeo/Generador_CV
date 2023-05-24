@@ -1,0 +1,31 @@
+.academic-formation-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.academic-formation-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.formation-type-select {
+  margin-bottom: 10px;
+}
+
+.formation-forms-container {
+  margin-top: 10px;
+}
+
+.formation-form {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+.add-formation-button {
+  margin-top: 10px;
+}
