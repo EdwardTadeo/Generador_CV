@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
-import { Button, Grid, TextField, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import React, { useState } from "react";
+import {
+  Button,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 
-import './WorkExperience.css';
+import "./WorkExperience.css";
 
 const WorkExperience = () => {
-  const [experienceType, setExperienceType] = useState('');
+  const [experienceType, setExperienceType] = useState("");
   const [experiences, setExperiences] = useState([]);
 
   const handleExperienceTypeChange = (event) => {
@@ -13,12 +22,12 @@ const WorkExperience = () => {
 
   const handleAddExperience = () => {
     const newExperience = {
-      company: '',
-      position: '',
-      startDate: '',
-      endDate: '',
-      objective: '',
-      achievements: '',
+      company: "",
+      position: "",
+      startDate: "",
+      endDate: "",
+      objective: "",
+      achievements: "",
     };
     setExperiences([...experiences, newExperience]);
   };
@@ -31,14 +40,13 @@ const WorkExperience = () => {
 
   return (
     <div className="work-experience-container">
-      <Typography variant="h5" className="work-experience-title">
-        Experiencia Laboral
-      </Typography>
-      <FormControl className="experience-type-select">
+      <h1>Experiencia Laboral</h1>
+      <FormControl className="experience-type-select" fullWidth>
         <InputLabel id="experience-type-label">Tipo de experiencia</InputLabel>
         <Select
           labelId="experience-type-label"
           value={experienceType}
+          label="Tipo de experiencia"
           onChange={handleExperienceTypeChange}
         >
           <MenuItem value="">Seleccionar</MenuItem>
@@ -46,7 +54,7 @@ const WorkExperience = () => {
           <MenuItem value="con-experiencia">Con experiencia</MenuItem>
         </Select>
       </FormControl>
-      {experienceType === 'con-experiencia' && (
+      {experienceType === "con-experiencia" && (
         <div className="experience-forms-container">
           {experiences.map((experience, index) => (
             <div key={index} className="experience-form">
@@ -58,7 +66,11 @@ const WorkExperience = () => {
                     fullWidth
                     value={experience.company}
                     onChange={(event) =>
-                      handleExperienceChange(index, 'company', event.target.value)
+                      handleExperienceChange(
+                        index,
+                        "company",
+                        event.target.value
+                      )
                     }
                   />
                 </Grid>
@@ -69,7 +81,11 @@ const WorkExperience = () => {
                     fullWidth
                     value={experience.position}
                     onChange={(event) =>
-                      handleExperienceChange(index, 'position', event.target.value)
+                      handleExperienceChange(
+                        index,
+                        "position",
+                        event.target.value
+                      )
                     }
                   />
                 </Grid>
@@ -80,7 +96,11 @@ const WorkExperience = () => {
                     fullWidth
                     value={experience.startDate}
                     onChange={(event) =>
-                      handleExperienceChange(index, 'startDate', event.target.value)
+                      handleExperienceChange(
+                        index,
+                        "startDate",
+                        event.target.value
+                      )
                     }
                   />
                 </Grid>
@@ -91,7 +111,11 @@ const WorkExperience = () => {
                     fullWidth
                     value={experience.endDate}
                     onChange={(event) =>
-                      handleExperienceChange(index, 'endDate', event.target.value)
+                      handleExperienceChange(
+                        index,
+                        "endDate",
+                        event.target.value
+                      )
                     }
                   />
                 </Grid>
@@ -102,7 +126,11 @@ const WorkExperience = () => {
                     fullWidth
                     value={experience.objective}
                     onChange={(event) =>
-                      handleExperienceChange(index, 'objective', event.target.value)
+                      handleExperienceChange(
+                        index,
+                        "objective",
+                        event.target.value
+                      )
                     }
                   />
                 </Grid>
@@ -115,7 +143,11 @@ const WorkExperience = () => {
                     rows={4}
                     value={experience.achievements}
                     onChange={(event) =>
-                      handleExperienceChange(index, 'achievements', event.target.value)
+                      handleExperienceChange(
+                        index,
+                        "achievements",
+                        event.target.value
+                      )
                     }
                   />
                 </Grid>

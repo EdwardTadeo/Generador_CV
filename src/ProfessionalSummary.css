@@ -1,16 +1,19 @@
 .professional-summary-container {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 16px;
-    margin-bottom: 20px;
-  }
-  
-  .summary-textarea {
-    width: 100%;
-    resize: vertical;
-    padding: 8px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.summary-textarea {
+  width: 100%;
+  min-height: 50px;
+  border-width: 0px;
+  font-size: 20px;
+  outline: none;
+  display: block;
+  overflow: hidden;
+  display: block;
+  resize: none;
+  /* maxlength: 100px in HTML */
+}

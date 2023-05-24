@@ -1,0 +1,42 @@
+.knowledge-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.knowledge-form {
+  margin-top: 10px;
+  padding: 10px;
+  border: 0px solid #ccc;
+  border-radius: 5px;
+}
+
+.knowledge-form .MuiGrid-item {
+  display: flex;
+  align-items: center;
+}
+
+.knowledge-form .MuiFormControl-root {
+  width: 100%;
+}
+
+.knowledge-form .MuiInputLabel-outlined {
+  transform: translate(14px, 12px) scale(1);
+}
+
+.knowledge-form .MuiInputLabel-outlined.MuiInputLabel-shrink {
+  transform: translate(14px, -6px) scale(0.75);
+}
+
+.knowledge-form .MuiSelect-root {
+  padding: 10px;
+}
+
+.knowledge-form .MuiTextField-root {
+  width: 100%;
+}
+
+.knowledge-form .MuiButton-contained {
+  margin-top: 10px;
+}
