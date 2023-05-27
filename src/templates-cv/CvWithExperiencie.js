@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, Image } from '@react-pdf/renderer';
-import { styles } from '../styles-pdf';
+import { styles } from './styles-pdf';
 
 const MyDocument = ({ formData,photo }) => (
     <Document>
@@ -59,7 +59,7 @@ const MyDocument = ({ formData,photo }) => (
                 {info.company}
               </Text>
               <Text style={styles.sectiontext}>
-                Cargo: {info.position+'   ('+info.startDate+' - ('+info.endDate+')'}
+                Cargo: {info.position+'   ('+info.startDate+' - '+info.endDate+')'}
               </Text>
               <Text style={styles.sectiontext}>
                   . Objetivo del Puesto:

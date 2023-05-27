@@ -1,8 +1,9 @@
 .professional-summary-container {
-  border: 1px solid #ccc;
+  border: 2px solid red;
   border-radius: 4px;
   padding: 16px;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .summary-textarea {
@@ -12,7 +13,6 @@
   font-size: 20px;
   outline: none;
   display: block;
-  overflow: hidden;
   display: block;
   resize: none;
   /* maxlength: 100px in HTML */

@@ -70,7 +70,7 @@ const WorkExperience = ({ onChange, onExperienceChange }) => {
           <MenuItem value="senior">Senior</MenuItem>
         </Select>
       </FormControl>
-      {experienceType === "con-experiencia" && (
+      {(experienceType === "con-experiencia" || experienceType === "junior" || experienceType === "senior") && (
         <div className="experience-forms-container">
           {experiences.map((experience, index) => (
             <div key={index} className="experience-form">
@@ -111,13 +111,22 @@ const WorkExperience = ({ onChange, onExperienceChange }) => {
                     variant="outlined"
                     fullWidth
                     value={experience.startDate}
-                    onChange={(event) =>
-                      handleExperienceChange(
-                        index,
-                        "startDate",
-                        event.target.value
-                      )
-                    }
+                    placeholder="Ej: 01/2001"
+                    onChange={(event) => {
+                      // Obtén el valor de la entrada
+                      let value = event.target.value;
+              
+                      // Remueve todos los caracteres no numéricos
+                      value = value.replace(/\D/g, "");
+              
+                      // Inserta el "/" después del segundo dígito
+                      if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
+              
+                      // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                      if (value.length > 7) value = value.slice(0,7);
+              
+                      handleExperienceChange(index, "startDate", value);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -126,13 +135,22 @@ const WorkExperience = ({ onChange, onExperienceChange }) => {
                     variant="outlined"
                     fullWidth
                     value={experience.endDate}
-                    onChange={(event) =>
-                      handleExperienceChange(
-                        index,
-                        "endDate",
-                        event.target.value
-                      )
-                    }
+                    placeholder="Ej: 01/2001"
+                    onChange={(event) => {
+                      // Obtén el valor de la entrada
+                      let value = event.target.value;
+              
+                      // Remueve todos los caracteres no numéricos
+                      value = value.replace(/\D/g, "");
+              
+                      // Inserta el "/" después del segundo dígito
+                      if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
+              
+                      // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                      if (value.length > 7) value = value.slice(0,7);
+              
+                      handleExperienceChange(index, "endDate", value);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>

@@ -70,9 +70,22 @@ const ExtraActivities = ({onChange}) => {
                 variant="outlined"
                 fullWidth
                 value={activity.startDate}
-                onChange={(event) =>
-                  handleActivityChange(index, "startDate", event.target.value)
-                }
+                placeholder="Ej: 01/2001"
+                onChange={(event) => {
+                  // Obtén el valor de la entrada
+                  let value = event.target.value;
+          
+                  // Remueve todos los caracteres no numéricos
+                  value = value.replace(/\D/g, "");
+          
+                  // Inserta el "/" después del segundo dígito
+                  if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
+          
+                  // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                  if (value.length > 7) value = value.slice(0,7);
+          
+                  handleActivityChange(index, "startDate", value);
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -81,9 +94,22 @@ const ExtraActivities = ({onChange}) => {
                 variant="outlined"
                 fullWidth
                 value={activity.endDate}
-                onChange={(event) =>
-                  handleActivityChange(index, "endDate", event.target.value)
-                }
+                placeholder="Ej: 01/2001"
+                onChange={(event) => {
+                  // Obtén el valor de la entrada
+                  let value = event.target.value;
+          
+                  // Remueve todos los caracteres no numéricos
+                  value = value.replace(/\D/g, "");
+          
+                  // Inserta el "/" después del segundo dígito
+                  if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
+          
+                  // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                  if (value.length > 7) value = value.slice(0,7);
+          
+                  handleActivityChange(index, "endDate", value);
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

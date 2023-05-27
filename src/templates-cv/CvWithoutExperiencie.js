@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, Image } from '@react-pdf/renderer';
-import { styles } from '../styles-pdf';
+import { styles } from './styles-pdf';
 
 const MyDocument = ({ formData,photo }) => (
     <Document>
