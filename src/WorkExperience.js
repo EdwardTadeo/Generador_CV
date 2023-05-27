@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Grid,
@@ -7,18 +7,18 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Typography,
 } from "@mui/material";
 
 import "./WorkExperience.css";
 
-const WorkExperience = () => {
+const WorkExperience = ({ onChange, onExperienceChange }) => {
   const [experienceType, setExperienceType] = useState("");
   const [experiences, setExperiences] = useState([]);
 
-  const handleExperienceTypeChange = (event) => {
-    setExperienceType(event.target.value);
-  };
+  useEffect(() => {
+    onChange(experiences);
+  }, [experiences, onChange]);
+
 
   const handleAddExperience = () => {
     const newExperience = {
@@ -37,6 +37,20 @@ const WorkExperience = () => {
     updatedExperiences[index][field] = value;
     setExperiences(updatedExperiences);
   };
+  const handleExperienceTypeChange = (event) => {
+    const value = event.target.value;
+    setExperienceType(value);
+  
+    if (value === "sin-experiencia") {
+      setExperiences([]);
+      onExperienceChange(false, '');
+    } else if (value === "con-experiencia") {
+      onExperienceChange(true, '');
+    } else {
+      // si es junior o senior
+      onExperienceChange(true, value);
+    }
+  };
 
   return (
     <div className="work-experience-container">
@@ -52,6 +66,8 @@ const WorkExperience = () => {
           <MenuItem value="">Seleccionar</MenuItem>
           <MenuItem value="sin-experiencia">Sin experiencia</MenuItem>
           <MenuItem value="con-experiencia">Con experiencia</MenuItem>
+          <MenuItem value="junior">Asistente/Junior</MenuItem>
+          <MenuItem value="senior">Senior</MenuItem>
         </Select>
       </FormControl>
       {experienceType === "con-experiencia" && (

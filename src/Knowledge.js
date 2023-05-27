@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import {
   Button,
   FormControl,
@@ -11,8 +11,12 @@ import {
 
 import "./Knowledge.css";
 
-const Knowledge = () => {
+const Knowledge = ({onChange}) => {
   const [knowledgeList, setKnowledgeList] = useState([]);
+
+  useEffect(() => {
+    onChange(knowledgeList);
+  }, [knowledgeList, onChange]);
 
   const handleAddKnowledge = () => {
     const newKnowledge = {
@@ -43,6 +47,7 @@ const Knowledge = () => {
                 <Select
                   labelId={`category-label-${index}`}
                   value={knowledge.category}
+                  label="Categoría"
                   onChange={(event) =>
                     handleKnowledgeChange(index, "category", event.target.value)
                   }
@@ -70,6 +75,7 @@ const Knowledge = () => {
                 <Select
                   labelId={`level-label-${index}`}
                   value={knowledge.level}
+                  label= "Nivel"
                   onChange={(event) =>
                     handleKnowledgeChange(index, "level", event.target.value)
                   }

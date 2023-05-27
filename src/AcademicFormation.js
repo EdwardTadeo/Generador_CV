@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Grid,
@@ -11,9 +11,13 @@ import {
 
 import "./AcademicFormation.css";
 
-const AcademicFormation = () => {
+const AcademicFormation = ({ onChange }) => {
   const [formationType, setFormationType] = useState("");
   const [formations, setFormations] = useState([]);
+
+  useEffect(() => {
+    onChange(formations);
+  }, [formations, onChange]);
 
   const handleFormationTypeChange = (event) => {
     setFormationType(event.target.value);
@@ -37,7 +41,6 @@ const AcademicFormation = () => {
     updatedFormations[index][field] = value;
     setFormations(updatedFormations);
   };
-
   return (
     <div className="academic-formation-container">
       <h1>Formación Académica</h1>
@@ -120,13 +123,21 @@ const AcademicFormation = () => {
                     variant="outlined"
                     fullWidth
                     value={formation.startDate}
-                    onChange={(event) =>
-                      handleFormationChange(
-                        index,
-                        "startDate",
-                        event.target.value
-                      )
-                    }
+                    onChange={(event) => {
+                      // Obtén el valor de la entrada
+                      let value = event.target.value;
+              
+                      // Remueve todos los caracteres no numéricos
+                      value = value.replace(/\D/g, "");
+              
+                      // Inserta el "/" después del segundo dígito
+                      if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
+              
+                      // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                      if (value.length > 7) value = value.slice(0,7);
+              
+                      handleFormationChange(index, "startDate", value);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -135,13 +146,21 @@ const AcademicFormation = () => {
                     variant="outlined"
                     fullWidth
                     value={formation.endDate}
-                    onChange={(event) =>
-                      handleFormationChange(
-                        index,
-                        "endDate",
-                        event.target.value
-                      )
-                    }
+                    onChange={(event) => {
+                      // Obtén el valor de la entrada
+                      let value = event.target.value;
+              
+                      // Remueve todos los caracteres no numéricos
+                      value = value.replace(/\D/g, "");
+              
+                      // Inserta el "/" después del segundo dígito
+                      if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
+              
+                      // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                      if (value.length > 7) value = value.slice(0,7);
+              
+                      handleFormationChange(index, "endDate", value);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>

@@ -3,7 +3,6 @@ import { Button, FormControl, InputLabel, Typography } from '@mui/material';
 import './PhotoUploader.css';
 
 function PhotoUploader({ onUpload }) {
-  const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
 
   const handlePhotoChange = (event) => {
@@ -11,14 +10,13 @@ function PhotoUploader({ onUpload }) {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhoto(file);
+        // Pasamos la cadena base64 en lugar del ArrayBuffer.
+        onUpload(reader.result);
         setPhotoPreview(reader.result);
-        onUpload(file);
       };
       reader.readAsDataURL(file);
     }
   };
-
   return (
     <div className="photo-uploader">
       <h1>

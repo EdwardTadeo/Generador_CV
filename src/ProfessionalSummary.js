@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { Box, Typography, TextareaAutosize } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, TextareaAutosize } from "@mui/material";
 import "./ProfessionalSummary.css";
 
 function ProfessionalSummary({ onChange }) {
   const [summary, setSummary] = useState("");
 
+  useEffect(() => {
+    onChange(summary);
+  }, [summary, onChange]);
+
   const handleSummaryChange = (event) => {
     const value = event.target.value;
     setSummary(value);
-    onChange(value);
   };
 
   return (

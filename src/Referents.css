@@ -1,0 +1,27 @@
+.referents-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .referents-form {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .referents-form .MuiGrid-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .referents-form .MuiTextField-root {
+    width: 100%;
+  }
+  
+  .referents-form .MuiButton-contained {
+    margin-top: 10px;
+  }
+  

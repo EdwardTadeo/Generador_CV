@@ -1,0 +1,26 @@
+.achievements-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+  
+.achievement-form {
+    margin-top: 10px;
+    padding: 10px;
+    border: 0px solid #ccc;
+    border-radius: 5px;
+}
+  
+.achievement-form .MuiTextField-root {
+    width: 100%;
+}
+.achievement-form .MuiGrid-item {
+    display: flex;
+    align-items: center;
+}
+  
+.achievement-form .MuiButton-contained {
+    margin-top: 10px;
+}
+  

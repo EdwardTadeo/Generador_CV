@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Grid, TextField } from "@mui/material";
 
 import "./ExtraActivities.css";
 
-const ExtraActivities = () => {
-  const [activities, setActivities] = useState([]);
+const ExtraActivities = ({onChange}) => {
+  const [activitiesList, setActivitiesList] = useState([]);
+
+  useEffect(() => {
+    onChange(activitiesList);
+  }, [activitiesList, onChange]);
 
   const handleAddActivity = () => {
     const newActivity = {
@@ -15,19 +19,19 @@ const ExtraActivities = () => {
       position: "",
       responsibilities: "",
     };
-    setActivities([...activities, newActivity]);
+    setActivitiesList([...activitiesList, newActivity]);
   };
 
   const handleActivityChange = (index, field, value) => {
-    const updatedActivities = [...activities];
-    updatedActivities[index][field] = value;
-    setActivities(updatedActivities);
+    const updatedActivitiesList = [...activitiesList];
+    updatedActivitiesList[index][field] = value;
+    setActivitiesList(updatedActivitiesList);
   };
 
   return (
     <div className="extra-activities-container">
       <h1>Actividades Extras o Voluntariado</h1>
-      {activities.map((activity, index) => (
+      {activitiesList.map((activity, index) => (
         <div key={index} className="activity-form">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

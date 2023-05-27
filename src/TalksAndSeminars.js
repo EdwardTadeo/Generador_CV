@@ -1,29 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Grid, TextField } from "@mui/material";
 
 import "./TalksAndSeminars.css";
 
-const TalksAndSeminars = () => {
-  const [events, setEvents] = useState([]);
+const TalksAndSeminars = ({onChange}) => {
+  const [eventList, setEventsList] = useState([]);
+
+  useEffect(() =>{
+    onChange(eventList);
+  }, [eventList, onChange]);
 
   const handleAddEvent = () => {
     const newEvent = {
       eventName: "",
       universityOrLocation: "",
     };
-    setEvents([...events, newEvent]);
+    setEventsList([...eventList, newEvent]);
   };
 
   const handleEventChange = (index, field, value) => {
-    const updatedEvents = [...events];
-    updatedEvents[index][field] = value;
-    setEvents(updatedEvents);
+    const updatedEventsList = [...eventList];
+    updatedEventsList[index][field] = value;
+    setEventsList(updatedEventsList);
   };
 
   return (
     <div className="talks-and-seminars-container">
-      <h2>Charlas y Seminarios</h2>
-      {events.map((event, index) => (
+      <h1>Charlas y Seminarios</h1>
+      {eventList.map((event, index) => (
         <div key={index} className="event-form">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Grid, TextField, Select, MenuItem, FormControl, InputLabel, OutlinedInput  } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid, TextField, Select, MenuItem, FormControl, InputLabel, OutlinedInput  } from '@mui/material';
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 
@@ -7,18 +7,18 @@ import './CVForm.css';
 
 countries.registerLocale(enLocale);
 
-function CVForm({ onSubmit }) {
+function CVForm({ onGeneratePDF }) {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dniType, setDniType] = useState('DNI');
   const [dni, setDni] = useState('');
   const [cellphone, setCellphone] = useState('');
   const [email, setEmail] = useState('');
+  const [country, setCountry] = useState('');
   const [department, setDepartment] = useState('');
   const [address, setAddress] = useState('');
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
     const formData = {
       name,
       lastName,
@@ -26,21 +26,13 @@ function CVForm({ onSubmit }) {
       dni,
       cellphone,
       email,
+      country,
       department,
       address,
     };
-    onSubmit(formData);
-  };
+    onGeneratePDF(formData);
+  }, [name, lastName, dniType, dni, cellphone, email, country, department, address, onGeneratePDF]);
 
-  const handleResetForm = () => {
-    setName('');
-    setLastName('');
-    setDni('');
-    setCellphone('');
-    setEmail('');
-    setDepartment('');
-    setAddress('');
-  };
 
   const departments = [
     'Amazonas',
@@ -80,7 +72,7 @@ function CVForm({ onSubmit }) {
   });
 
   return (
-    <form onSubmit={handleFormSubmit} onReset={handleResetForm} className="cv-form-container">
+    <form  className="cv-form-container">
       <h1>Ingresa tu información personal</h1>
       <Grid container spacing={2}>
         <Grid item xs={6}>
@@ -123,7 +115,16 @@ function CVForm({ onSubmit }) {
             variant="outlined"
             fullWidth
             value={dni}
-            onChange={(event) => setDni(event.target.value)}
+            type="number"
+            inputProps={{
+              maxLength: 8
+            }}
+            onChange={(event) => {
+              // Limitar la longitud de la entrada a 8
+              if (event.target.value.length <= 8) {
+                setDni(event.target.value);
+              }
+            }}
           />
         </Grid>
         <Grid item xs={6}>
@@ -149,9 +150,9 @@ function CVForm({ onSubmit }) {
             <InputLabel id="country-label">País</InputLabel>
             <Select
               labelId="country-label"
-              value={department}
+              value={country}
               label="País"
-              onChange={(event) => setDepartment(event.target.value)}
+              onChange={(event) => setCountry(event.target.value)}
             >
               {countryOptions.map(({ label, value }) => (
                 <MenuItem key={value} value={value}>
@@ -186,11 +187,6 @@ function CVForm({ onSubmit }) {
             value={address}
             onChange={(event) => setAddress(event.target.value)}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Button variant="contained" type="submit">
-            Siguiente
-          </Button>
         </Grid>
       </Grid>
     </form>
