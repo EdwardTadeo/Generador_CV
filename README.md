@@ -1,4 +1,4 @@
-# <GENERADOR DE CV's>
+# GENERADOR DE CV's
 
 Este proyecto es una aplicación para generar CV´s en función a los datos ingresados en los formularios.
 
