@@ -41,7 +41,7 @@ const MyDocument = ({ formData,photo }) => (
         </View>
         <View>
           <Text style={styles.sectiontitle}>RESUMEN PROFESIONAL</Text>
-          <View style={styles.section}>
+          <View style={styles.sectionSumarry}>
             <Text style={styles.sectiontext}>
               {formData.summaryInfo.summary}
             </Text>

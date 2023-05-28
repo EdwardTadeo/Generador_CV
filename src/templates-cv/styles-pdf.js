@@ -18,11 +18,18 @@ export const styles = StyleSheet.create({
     },
     section: {
         left: 45,
+        width: 500,
+        marginTop: 10,
+        marginBottom: 5,
+    },
+    sectionSumarry: {
+        left: 45,
         width: 320,
         marginTop: 10,
+        marginBottom: 10,
     },
     sectiontext: {
-        lineHeight:2,
+        lineHeight: 1.5, //responsable
     },
     box: {
         width: 510, 
@@ -69,8 +76,8 @@ export const styles = StyleSheet.create({
     },
     sectioninfo:{
         left: 400,
-        top: 120,
-        marginBottom: -100,
+        top: 110,
+        marginBottom: -77,
     },
     lineInfo: {
         width: 200,
