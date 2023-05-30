@@ -1,16 +1,14 @@
 .professional-summary-container {
-  border: 2px solid red;
   border-radius: 4px;
   padding: 16px;
-  margin-bottom: 20px;
-  width: 100%;
+  width: 93%;
 }
 
 .summary-textarea {
   width: 100%;
-  min-height: 50px;
+  min-height: 100px;
   border-width: 0px;
-  font-size: 20px;
+  font-size: 15px;
   outline: none;
   display: block;
   display: block;

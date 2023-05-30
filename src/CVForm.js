@@ -1,38 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Grid, TextField, Select, MenuItem, FormControl, InputLabel, OutlinedInput  } from '@mui/material';
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 
-import './CVForm.css';
 
 countries.registerLocale(enLocale);
-
-function CVForm({ onGeneratePDF }) {
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dniType, setDniType] = useState('DNI');
-  const [dni, setDni] = useState('');
-  const [cellphone, setCellphone] = useState('');
-  const [email, setEmail] = useState('');
-  const [country, setCountry] = useState('');
-  const [department, setDepartment] = useState('');
-  const [address, setAddress] = useState('');
-
-  useEffect(() => {
-    const formData = {
-      name,
-      lastName,
-      dniType,
-      dni,
-      cellphone,
-      email,
-      country,
-      department,
-      address,
-    };
-    onGeneratePDF(formData);
-  }, [name, lastName, dniType, dni, cellphone, email, country, department, address, onGeneratePDF]);
-
 
   const departments = [
     'Amazonas',
@@ -71,88 +43,71 @@ function CVForm({ onGeneratePDF }) {
     };
   });
 
-  return (
-    <form  className="cv-form-container">
-      <h1>Ingresa tu información personal</h1>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <TextField
-            label="Nombre"
-            variant="outlined"
-            fullWidth
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Apellido"
-            variant="outlined"
-            fullWidth
-            value={lastName}
-            onChange={(event) => setLastName(event.target.value)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="dni-type-label">Tipo de documento</InputLabel>
-            <Select
-              labelId="dni-type-label"
-              value={dniType}
-              onChange={(event) => setDniType(event.target.value)}
-              label="Tipo de documento"
-              input={<OutlinedInput label="Tipo de documento" />}
-            >
-              <MenuItem value="DNI">DNI</MenuItem>
-              <MenuItem value="Pasaporte">Pasaporte</MenuItem>
-              <MenuItem value="Carne de Extranjería">Carne de Extranjería</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Número de documento"
-            variant="outlined"
-            fullWidth
-            value={dni}
-            type="number"
-            inputProps={{
-              maxLength: 8
-            }}
-            onChange={(event) => {
-              // Limitar la longitud de la entrada a 8
-              if (event.target.value.length <= 8) {
-                setDni(event.target.value);
-              }
-            }}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Celular"
-            variant="outlined"
-            fullWidth
-            value={cellphone}
-            onChange={(event) => setCellphone(event.target.value)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Correo"
-            variant="outlined"
-            fullWidth
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </Grid>
-        <Grid item xs={6}>
+  const PersonalDetails = ({ formData, handleChange }) => (
+    <Grid container spacing={2}>
+      <Grid item sm={6}>
+        <TextField fullWidth variant='standard' name="name" label="Nombres" value={formData.name} onChange={handleChange} />
+      </Grid>
+      <Grid item sm={6}>
+        <TextField variant='standard' fullWidth name="lastname" label="Apellidos" value={formData.lastname} onChange={handleChange} />
+      </Grid>
+      <Grid item sm={6}>
+        <FormControl variant="outlined" fullWidth>
+          <InputLabel id="dni-type-label">Tipo de documento</InputLabel>
+          <Select
+            labelId="dni-type-label"
+            value={formData.dniType}
+            onChange={handleChange}
+            name='dniType'
+            label="Tipo de documento"
+            input={<OutlinedInput label="Tipo de documento" />}
+          >
+            <MenuItem value="DNI">DNI</MenuItem>
+            <MenuItem value="Pasaporte">Pasaporte</MenuItem>
+            <MenuItem value="Carne de Extranjería">Carne de Extranjería</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={6}>
+        <TextField
+          label="Número de documento"
+          variant="standard"
+          name="dni"
+          fullWidth
+          value={formData.dni}
+          onChange={handleChange}
+        />
+      </Grid>
+      <Grid item sm={6}>
+        <TextField
+          label='Celular'
+          variant='standard'
+          fullWidth
+          name='cellphone'
+          value={formData.cellphone}
+          onChange={handleChange}
+        />
+      </Grid>
+      <Grid item sm={6}>
+        <TextField
+          label='Correo'
+          variant='standard'
+          name='email'
+          fullWidth
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </Grid>
+      <Grid item xs={6}>
           <FormControl fullWidth>
             <InputLabel id="country-label">País</InputLabel>
             <Select
               labelId="country-label"
-              value={country}
+              value={formData.country}
               label="País"
-              onChange={(event) => setCountry(event.target.value)}
+              fullWidth
+              name='country'
+              onChange={handleChange}
             >
               {countryOptions.map(({ label, value }) => (
                 <MenuItem key={value} value={value}>
@@ -167,9 +122,11 @@ function CVForm({ onGeneratePDF }) {
             <InputLabel id="department-label">Departamento</InputLabel>
             <Select
               labelId="department-label"
-              value={department}
+              value={formData.department}
               label="Departamento"
-              onChange={(event) => setDepartment(event.target.value)}
+              name='department'
+              fullWidth
+              onChange={handleChange}
             >
               {departments.map((dep) => (
                 <MenuItem key={dep} value={dep}>
@@ -182,15 +139,13 @@ function CVForm({ onGeneratePDF }) {
         <Grid item xs={12}>
           <TextField
             label="Dirección"
-            variant="outlined"
+            variant="standard"
             fullWidth
-            value={address}
-            onChange={(event) => setAddress(event.target.value)}
+            value={formData.address}
+            onChange={handleChange}
           />
         </Grid>
-      </Grid>
-    </form>
+    </Grid>
   );
-}
 
-export default CVForm;
+export default PersonalDetails;

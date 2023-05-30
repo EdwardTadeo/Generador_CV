@@ -1,45 +1,23 @@
-import React, { useState, useEffect  } from "react";
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import React from 'react';
+import { Button, Grid, TextField, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import "./Knowledge.css";
-
-const Knowledge = ({onChange}) => {
-  const [knowledgeList, setKnowledgeList] = useState([]);
-
-  useEffect(() => {
-    onChange(knowledgeList);
-  }, [knowledgeList, onChange]);
-
-  const handleAddKnowledge = () => {
-    const newKnowledge = {
-      category: "",
-      name: "",
-      level: "",
-    };
-    setKnowledgeList([...knowledgeList, newKnowledge]);
-  };
-
-  const handleKnowledgeChange = (index, field, value) => {
-    const updatedKnowledgeList = [...knowledgeList];
-    updatedKnowledgeList[index][field] = value;
-    setKnowledgeList(updatedKnowledgeList);
-  };
-
+const Knowledge = ({ knowledge, handleAddKnowledge, handleKnowledgeChange }) => {
   return (
-    <div className="knowledge-container">
-      <h1>Idiomas/Tecnologías/Programas</h1>
-      {knowledgeList.map((knowledge, index) => (
-        <div key={index} className="knowledge-form">
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+    <div>
+      {knowledge.map((knowledge, index) => (
+        <Accordion key={index} style={{marginBottom:'10px'}}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <InputLabel>{knowledge.category ? `${knowledge.category} - ${knowledge.name} (${knowledge.level})` : '(sin especificar)'}</InputLabel>
+        </AccordionSummary>
+        <AccordionDetails>
+        <Grid container spacing={2} className='experience-form'>
+        <Grid item xs={12} sm={4}>
               <FormControl fullWidth>
                 <InputLabel id={`category-label-${index}`}>
                   Categoría
@@ -47,9 +25,10 @@ const Knowledge = ({onChange}) => {
                 <Select
                   labelId={`category-label-${index}`}
                   value={knowledge.category}
+                  name='category'
                   label="Categoría"
                   onChange={(event) =>
-                    handleKnowledgeChange(index, "category", event.target.value)
+                    handleKnowledgeChange(event, index)
                   }
                 >
                   <MenuItem value="idioma">Idioma</MenuItem>
@@ -63,9 +42,10 @@ const Knowledge = ({onChange}) => {
                 label="Nombre"
                 variant="outlined"
                 fullWidth
+                name='name'
                 value={knowledge.name}
                 onChange={(event) =>
-                  handleKnowledgeChange(index, "name", event.target.value)
+                  handleKnowledgeChange(event, index)
                 }
               />
             </Grid>
@@ -76,8 +56,9 @@ const Knowledge = ({onChange}) => {
                   labelId={`level-label-${index}`}
                   value={knowledge.level}
                   label= "Nivel"
+                  name='level'
                   onChange={(event) =>
-                    handleKnowledgeChange(index, "level", event.target.value)
+                    handleKnowledgeChange(event, index)
                   }
                 >
                   <MenuItem value="basico">Básico</MenuItem>
@@ -86,11 +67,12 @@ const Knowledge = ({onChange}) => {
                 </Select>
               </FormControl>
             </Grid>
-          </Grid>
-        </div>
+        </Grid>
+        </AccordionDetails>
+      </Accordion>
       ))}
-      <Button variant="contained" onClick={handleAddKnowledge}>
-        Añadir conocimiento
+      <Button variant="outlined" onClick={handleAddKnowledge} style={{color: '#DF321A', borderColor: '#DF321A'}}>
+        Agregar Estudios
       </Button>
     </div>
   );

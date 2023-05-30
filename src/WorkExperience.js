@@ -1,202 +1,134 @@
-import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Grid,
-  TextField,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import React from 'react';
+import { Button, Grid, TextField, InputLabel, Box, Typography } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import "./WorkExperience.css";
-
-const WorkExperience = ({ onChange, onExperienceChange }) => {
-  const [experienceType, setExperienceType] = useState("");
-  const [experiences, setExperiences] = useState([]);
-
-  useEffect(() => {
-    onChange(experiences);
-  }, [experiences, onChange]);
-
-
-  const handleAddExperience = () => {
-    const newExperience = {
-      company: "",
-      position: "",
-      startDate: "",
-      endDate: "",
-      objective: "",
-      achievements: "",
-    };
-    setExperiences([...experiences, newExperience]);
-  };
-
-  const handleExperienceChange = (index, field, value) => {
-    const updatedExperiences = [...experiences];
-    updatedExperiences[index][field] = value;
-    setExperiences(updatedExperiences);
-  };
-  const handleExperienceTypeChange = (event) => {
-    const value = event.target.value;
-    setExperienceType(value);
-  
-    if (value === "sin-experiencia") {
-      setExperiences([]);
-      onExperienceChange(false, '');
-    } else if (value === "con-experiencia") {
-      onExperienceChange(true, '');
-    } else {
-      // si es junior o senior
-      onExperienceChange(true, value);
-    }
-  };
-
+const WorkExperience = ({ workExperience, handleAddWorkExperience, handleWorkExperienceChange }) => {
   return (
-    <div className="work-experience-container">
-      <h1>Experiencia Laboral</h1>
-      <FormControl className="experience-type-select" fullWidth>
-        <InputLabel id="experience-type-label">Tipo de experiencia</InputLabel>
-        <Select
-          labelId="experience-type-label"
-          value={experienceType}
-          label="Tipo de experiencia"
-          onChange={handleExperienceTypeChange}
+    <div>
+      {workExperience.map((work, index) => (
+        <Accordion key={index} style={{marginBottom:'10px'}}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
         >
-          <MenuItem value="">Seleccionar</MenuItem>
-          <MenuItem value="sin-experiencia">Sin experiencia</MenuItem>
-          <MenuItem value="con-experiencia">Con experiencia</MenuItem>
-          <MenuItem value="junior">Asistente/Junior</MenuItem>
-          <MenuItem value="senior">Senior</MenuItem>
-        </Select>
-      </FormControl>
-      {(experienceType === "con-experiencia" || experienceType === "junior" || experienceType === "senior") && (
-        <div className="experience-forms-container">
-          {experiences.map((experience, index) => (
-            <div key={index} className="experience-form">
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Nombre de la empresa"
-                    variant="outlined"
-                    fullWidth
-                    value={experience.company}
-                    onChange={(event) =>
-                      handleExperienceChange(
-                        index,
-                        "company",
-                        event.target.value
-                      )
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Cargo"
-                    variant="outlined"
-                    fullWidth
-                    value={experience.position}
-                    onChange={(event) =>
-                      handleExperienceChange(
-                        index,
-                        "position",
-                        event.target.value
-                      )
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Mes y año de inicio"
-                    variant="outlined"
-                    fullWidth
-                    value={experience.startDate}
-                    placeholder="Ej: 01/2001"
-                    onChange={(event) => {
-                      // Obtén el valor de la entrada
-                      let value = event.target.value;
+          <Box>
+            <Typography variant="body1">
+              {work.company ? `${work.company} - ${work.jobTitle}` : '(sin especificar)'}
+            </Typography>
+            <Typography variant="subtitle2">
+              {work.startDate ? `${work.startDate} - ${work.endDate}` : ''}
+            </Typography>
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+        <Grid container spacing={2} className='experience-form'>
+          <Grid item xs={12} sm={6}>
+            <TextField
+                fullWidth
+                variant="outlined"
+                name="company"
+                label="Empresa"
+                value={work.company}
+                onChange={(event) => handleWorkExperienceChange(event, index)}
+            />
+          </Grid> 
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              name="jobTitle"
+              label="Puesto de trabajo"
+              value={work.jobTitle}
+              onChange={(event) => handleWorkExperienceChange(event, index)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              name="startDate"
+              label="Mes y año de inicio"
+              value={work.startDate}
+              placeholder='Ej: 01/2011'
+              onChange= {(event) => {
+                let value = event.target.value;
               
-                      // Remueve todos los caracteres no numéricos
-                      value = value.replace(/\D/g, "");
+                // Remueve todos los caracteres no numéricos
+                value = value.replace(/\D/g, "");
               
-                      // Inserta el "/" después del segundo dígito
-                      if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
+                // Inserta el "/" después del segundo dígito
+                if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
               
-                      // Límita la longitud de la entrada a 7 (incluyendo el "/")
-                      if (value.length > 7) value = value.slice(0,7);
+                // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                if (value.length > 7) value = value.slice(0,7);
+                
+                handleWorkExperienceChange({
+                  target: {
+                    name: "startDate",
+                    value,
+                  },
+                }, index);
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              name="endDate"
+              label="Mes y año de fin"
+              value={work.endDate}
+              placeholder='Ej: 01/2011'
+              onChange= {(event) => {
+                let value = event.target.value;
               
-                      handleExperienceChange(index, "startDate", value);
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Mes y año de fin"
-                    variant="outlined"
-                    fullWidth
-                    value={experience.endDate}
-                    placeholder="Ej: 01/2001"
-                    onChange={(event) => {
-                      // Obtén el valor de la entrada
-                      let value = event.target.value;
+                // Remueve todos los caracteres no numéricos
+                value = value.replace(/\D/g, "");
               
-                      // Remueve todos los caracteres no numéricos
-                      value = value.replace(/\D/g, "");
+                // Inserta el "/" después del segundo dígito
+                if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
               
-                      // Inserta el "/" después del segundo dígito
-                      if (value.length >= 2) value = value.slice(0,2) + "/" + value.slice(2);
-              
-                      // Límita la longitud de la entrada a 7 (incluyendo el "/")
-                      if (value.length > 7) value = value.slice(0,7);
-              
-                      handleExperienceChange(index, "endDate", value);
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    label="Objetivo del puesto"
-                    variant="outlined"
-                    fullWidth
-                    value={experience.objective}
-                    onChange={(event) =>
-                      handleExperienceChange(
-                        index,
-                        "objective",
-                        event.target.value
-                      )
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    label="Logros"
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={4}
-                    value={experience.achievements}
-                    onChange={(event) =>
-                      handleExperienceChange(
-                        index,
-                        "achievements",
-                        event.target.value
-                      )
-                    }
-                  />
-                </Grid>
-              </Grid>
-            </div>
-          ))}
-          <Button
-            variant="contained"
-            className="add-experience-button"
-            onClick={handleAddExperience}
-          >
-            Añadir experiencia laboral
-          </Button>
-        </div>
-      )}
+                // Límita la longitud de la entrada a 7 (incluyendo el "/")
+                if (value.length > 7) value = value.slice(0,7);
+                
+                handleWorkExperienceChange({
+                  target: {
+                    name: "endDate",
+                    value,
+                  },
+                }, index);
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField 
+              label = "Objetivos del Puesto"
+              fullWidth
+              variant="outlined"
+              name="objetive"
+              value={work.objetive}
+              onChange={(event) => handleWorkExperienceChange(event, index)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField 
+              label = "Logros"
+              fullWidth
+              variant="outlined"
+              name="achievements"
+              value={work.achievements}
+              onChange={(event) => handleWorkExperienceChange(event, index)}
+            />
+          </Grid>
+        </Grid>
+        </AccordionDetails>
+      </Accordion>
+      ))}
+      <Button variant="outlined" onClick={handleAddWorkExperience} style={{color: '#DF321A', borderColor: '#DF321A'}}>
+        Agregar empleo
+      </Button>
     </div>
   );
 };

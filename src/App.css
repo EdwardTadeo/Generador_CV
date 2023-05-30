@@ -1,8 +1,12 @@
 body {
   font-family: 'Catamaran', sans-serif;
+  background-color:#F4F4F4;
 }
 .App {
+  padding-top: 150px;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .App-logo {
@@ -55,4 +59,14 @@ body {
   margin-bottom: 40px;
   font-weight: 800;
   font-size: 60px;
+}
+
+.main-title{
+  font-size: 40px !important;
+  color: black !important;
+  font-weight: 800 !important;
+}
+.home-container{
+  width: 50%;
+  justify-content: center;
 }
