@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Popover, Typography } from '@mui/material';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import CVsinexperiencia from '../src/PDF-CV/PRACTICANTE SIN EXPERIENCIA.pdf'
+import CVsinexperiencia from '../src/PDF-CV/cv-sin-exp.pdf'
+import CVcomexperiencia from '../src/PDF-CV/cv-con-exp.pdf'
+import CVjunior from '../src/PDF-CV/cv-junior.pdf'
+import CVsenior from '../src/PDF-CV/cv-senior.pdf'
+
+
+
 import PDF_SIN from '../src/PDF-CV/cv-sin-exp.png';
 import PDF_CON from '../src/PDF-CV/cv-con-exp.png';
 import PDF_JUNIOR from '../src/PDF-CV/JUNIOR.png';
 import PDF_SENIOR from '../src/PDF-CV/Especialista.png';
-
+import './style.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const MyPDFs = () => {
   const [selectedPDF, setSelectedPDF] = useState(null);
   const [numPages, setNumPages] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState({
+    popover1: null,
+    popover2: null,
+    popover3: null,
+    popover4: null,
+  });
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -22,46 +34,241 @@ const MyPDFs = () => {
     setSelectedPDF(pdf);
   }
 
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
-    <Grid container spacing={2} style={{ height: '100vh' }}>
+    <Grid container spacing={2} style={{ height: '100vh'}}>
       <Grid item xs={12} md={6} style={{ overflowY: 'auto', maxHeight: '100vh' }}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Grid container direction="column" alignItems="center">
-              <img src={PDF_SIN} style={{width: '150px'}} alt="PDF 1" onClick={() => handlePDFClick(CVsinexperiencia)} />
-              <Button onClick={() => handlePDFClick(CVsinexperiencia)}>Ver PDF 1</Button>
+              <img src={PDF_SIN} style={{width: '150px', border: '1px solid black', cursor: 'pointer'}} alt="PDF 1" onClick={() => handlePDFClick(CVsinexperiencia)} />
+              <Button variant='outlined' onClick={() => handlePDFClick(CVsinexperiencia)} style={{color: '#DF321A', borderColor: '#DF321A', marginTop: '10px'}}>Ver PDF 1</Button>
             </Grid>
+            <div style={{marginTop: '-9%', marginLeft: '68%'}}>
+              <Typography
+                aria-owns={open ? "mouse-over-popover" : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+                sx={{
+                  borderRadius: "50%",
+                  width: 20,
+                  height: 20,
+                  display: "flex",
+                  color: "white",
+                  background: "red",
+                  fontWeight: 800,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "1px solid red",
+                  cursor: "help",
+                }}
+              >
+                ?
+              </Typography>
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: "none",
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+              >
+                <Typography sx={{ p: 1 }}>
+                  Este modelo de CV es ideal para personas que no cuentan con
+                  experiencia previa. Da tu primer paso con esta plantilla!!
+                </Typography>
+              </Popover>
+            </div>
           </Grid>
           <Grid item xs={6}>
             <Grid container direction="column" alignItems="center">
-              <img src={PDF_CON} style={{width: '150px'}} alt="PDF 2" onClick={() => handlePDFClick(CVsinexperiencia)} />
-              <Button onClick={() => handlePDFClick(CVsinexperiencia)}>Ver PDF 2</Button>
+              <img src={PDF_CON} style={{width: '150px', cursor:'pointer' , border: '1px solid black'}} alt="PDF 2" onClick={() => handlePDFClick(CVcomexperiencia)} />
+              <Button variant='outlined' onClick={() => handlePDFClick(CVcomexperiencia)} style={{color: '#DF321A', borderColor: '#DF321A', marginTop: '10px'}}>Ver PDF 2</Button>
             </Grid>
+            <div style={{marginTop: '-9%', marginLeft: '68%', marginBottom: '10%'}}>
+              <Typography
+                aria-owns={open ? "mouse-over-popover" : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+                sx={{
+                  borderRadius: "50%",
+                  width: 20,
+                  height: 20,
+                  display: "flex",
+                  color: "white",
+                  background: "red",
+                  fontWeight: 800,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "1px solid red",
+                  cursor: "help",
+                }}
+              >
+                ?
+              </Typography>
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: "none",
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+              >
+                <Typography sx={{ p: 1, maxWidth: '100px', wordBreak: 'break-word' }}>
+                  Este modelo de CV es ideal para personas que no cuentan con
+                  experiencia previa. Da tu primer paso con esta plantilla!!
+                </Typography>
+              </Popover>
+            </div>
           </Grid>
           <Grid item xs={6}>
             <Grid container direction="column" alignItems="center">
-              <img src={PDF_JUNIOR} style={{width: '150px'}} alt="PDF 3" onClick={() => handlePDFClick(CVsinexperiencia)} />
-              <Button onClick={() => handlePDFClick(CVsinexperiencia)}>Ver PDF 3</Button>
+              <img src={PDF_JUNIOR} style={{width: '150px', border: '1px solid black', cursor: 'pointer'}} alt="PDF 3" onClick={() => handlePDFClick(CVjunior)} />
+              <Button variant='outlined' onClick={() => handlePDFClick(CVjunior)} style={{color: '#DF321A', borderColor: '#DF321A', marginTop: '10px'}}>Ver PDF 3</Button>
             </Grid>
+            <div style={{marginTop: '-9%', marginLeft: '68%'}}>
+              <Typography
+                aria-owns={open ? "mouse-over-popover" : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+                sx={{
+                  borderRadius: "50%",
+                  width: 20,
+                  height: 20,
+                  display: "flex",
+                  color: "white",
+                  background: "red",
+                  fontWeight: 800,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "1px solid red",
+                  cursor: "help",
+                }}
+              >
+                ?
+              </Typography>
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: "none",
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+              >
+                <Typography sx={{ p: 1, maxWidth: '100px', wordBreak: 'break-word' }}>
+                  Este modelo de CV es ideal para personas que no cuentan con
+                  experiencia previa. Da tu primer paso con esta plantilla!!
+                </Typography>
+              </Popover>
+            </div>
           </Grid>
           <Grid item xs={6}>
             <Grid container direction="column" alignItems="center">
-              <img src={PDF_SENIOR} style={{width: '150px'}} alt="PDF 4" onClick={() => handlePDFClick(CVsinexperiencia)} />
-              <Button onClick={() => handlePDFClick(CVsinexperiencia)}>Ver PDF 4</Button>
+              <img src={PDF_SENIOR} style={{width: '150px', border: '1px solid black', cursor: 'pointer'}} alt="PDF 4" onClick={() => handlePDFClick(CVsenior)} />
+              <Button variant='outlined' onClick={() => handlePDFClick(CVsenior)} style={{color: '#DF321A', borderColor: '#DF321A', marginTop: '10px'}}>Ver PDF 4</Button>
             </Grid>
+            <div style={{marginTop: '-9%', marginLeft: '68%'}}>
+              <Typography
+                aria-owns={open ? "mouse-over-popover" : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+                sx={{
+                  borderRadius: "50%",
+                  width: 20,
+                  height: 20,
+                  display: "flex",
+                  color: "white",
+                  background: "red",
+                  fontWeight: 800,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "1px solid red",
+                  cursor: "help",
+                }}
+              >
+                ?
+              </Typography>
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: "none",
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+              >
+                <Typography sx={{ p: 1, maxWidth: '100px', wordBreak: 'break-word' }}>
+                  Este modelo de CV es ideal para personas que no cuentan con
+                  experiencia previa. Da tu primer paso con esta plantilla!!
+                </Typography>
+              </Popover>
+            </div>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} md={6} style={{ overflowY: 'auto' }}>
+      <Grid item xs={12} md={6} style={{ overflowY: "auto" }}>
         {selectedPDF && (
           <Document
+            width={200}
             file={selectedPDF}
             onLoadSuccess={onDocumentLoadSuccess}
-            style={{ width: '20px', height: '20px' }}
           >
-            <Page scale={0.5} key={`page_${1}`} pageNumber={ 1} />
+            <Page pageNumber={1} width={350} />
           </Document>
         )}
+        <Button variant='outlined' style={{color: '#DF321A', borderColor: '#DF321A', marginTop: '10px'}}>Seleccionar Plantilla</Button>
       </Grid>
     </Grid>
   );
