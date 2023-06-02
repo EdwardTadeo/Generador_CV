@@ -1,45 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Button, Grid, TextField } from "@mui/material";
+import React from 'react';
+import { Button, Grid, TextField, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import "./Referents.css";
 
-const Referents = ({onChange}) => {
-    const [referentsList , setReferentsList] = useState([]);
-
-    useEffect(() => {
-        onChange(referentsList);
-    }, [referentsList, onChange]);
-
-    const handleAddReferents = () => {
-        const newReferents = {
-            companyReferent: "",
-            nameReferent: "",
-            phoneReferent: "",
-            position: "",
-        };
-        setReferentsList([...referentsList, newReferents]);
-    };
-
-    const handleReferentChange = (index, field, value) => {
-        const updatedReferentsList = [...referentsList];
-        updatedReferentsList[index][field] = value;
-        setReferentsList(updatedReferentsList);
-    };
-    
+const Referents = ({referents, handleAddReferents, handleReferentChange}) => {
     return (
-        <div className="referents-container">
-            <h1>Referencias Laborales</h1>
-            {referentsList.map((referent, index) => (
-                <div key={index} className="referent-form">
-                    <Grid container spacing={2}>
+        <div>
+            {referents.map((referents, index) => (
+                <Accordion key={index} style={{marginBottom:'10px'}}>
+                    <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    >
+                    <InputLabel>{referents.companyReferent ? `${referents.companyReferent} - ${referents.position}` : '(sin especificar)'}</InputLabel>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                    <Grid container spacing={2} className='experience-form'>
                         <Grid item xs={12} sm={6}>
                             <TextField 
                                 label="Nombre de la Empresa"
                                 variant="outlined"
+                                name='companyReferent'
                                 fullWidth
-                                value={referent.companyReferent}
+                                value={referents.companyReferent}
                                 onChange={(event) => 
-                                    handleReferentChange(index, "companyReferent", event.target.value)
+                                    handleReferentChange(event, index)
                                 }
                             />
                         </Grid>
@@ -48,9 +36,10 @@ const Referents = ({onChange}) => {
                                 label="Nombre del Referente"    
                                 variant="outlined"
                                 fullWidth
-                                value={referent.nameReferent}
+                                name='nameReferent'
+                                value={referents.nameReferent}
                                 onChange={(event) =>
-                                    handleReferentChange(index, "nameReferent", event.target.value)
+                                    handleReferentChange(event, index)
                                 }
                             />
                         </Grid>
@@ -59,9 +48,10 @@ const Referents = ({onChange}) => {
                                 label="Número del Referente"    
                                 variant="outlined"
                                 fullWidth
-                                value={referent.phoneReferent}
+                                name='phoneReferent'
+                                value={referents.phoneReferent}
                                 onChange={(event) =>
-                                    handleReferentChange(index, "phoneReferent", event.target.value)
+                                    handleReferentChange(event, index)
                                 }
                             />
                         </Grid>
@@ -70,16 +60,18 @@ const Referents = ({onChange}) => {
                                 label="Puesto que ocupaba"    
                                 variant="outlined"
                                 fullWidth
-                                value={referent.position}
+                                name='position'
+                                value={referents.position}
                                 onChange={(event) =>
-                                    handleReferentChange(index, "position", event.target.value)
+                                    handleReferentChange( event, index)
                                 }
                             />
                         </Grid>
                     </Grid>
-                </div>
+                    </AccordionDetails>
+                </Accordion>
             ))}
-            <Button variant="contained" onClick={handleAddReferents}>
+            <Button variant="outlined" onClick={handleAddReferents} style={{color: '#DF321A', borderColor: '#DF321A'}}>
                 Añadir Referencias
             </Button>
         </div>

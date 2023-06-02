@@ -1,43 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Button, Grid, TextField } from "@mui/material";
+import React from 'react';
+import { Button, Grid, TextField, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import "./TalksAndSeminars.css";
 
-const TalksAndSeminars = ({onChange}) => {
-  const [eventList, setEventsList] = useState([]);
-
-  useEffect(() =>{
-    onChange(eventList);
-  }, [eventList, onChange]);
-
-  const handleAddEvent = () => {
-    const newEvent = {
-      eventName: "",
-      universityOrLocation: "",
-    };
-    setEventsList([...eventList, newEvent]);
-  };
-
-  const handleEventChange = (index, field, value) => {
-    const updatedEventsList = [...eventList];
-    updatedEventsList[index][field] = value;
-    setEventsList(updatedEventsList);
-  };
-
+const TalksAndSeminars = ({seminars, handleAddSeminars, handleSeminarsChange}) => {
   return (
-    <div className="talks-and-seminars-container">
-      <h1>Charlas y Seminarios</h1>
-      {eventList.map((event, index) => (
-        <div key={index} className="event-form">
-          <Grid container spacing={2}>
+    <div>
+      {seminars.map((seminars, index) => (
+          <Accordion key={index} style={{marginBottom:'10px'}}>
+            <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            >
+            <InputLabel>{seminars.eventName ? `${seminars.eventName} - ${seminars.universityOrLocation}` : '(sin especificar)'}</InputLabel>
+            </AccordionSummary>
+          <AccordionDetails>
+          <Grid container spacing={2} className="talks-and-seminars-container">
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Nombre del Evento"
                 variant="outlined"
                 fullWidth
-                value={event.eventName}
+                name="eventName"
+                value={seminars.eventName}
                 onChange={(event) =>
-                  handleEventChange(index, "eventName", event.target.value)
+                  handleSeminarsChange(event, index)
                 }
               />
             </Grid>
@@ -46,20 +36,20 @@ const TalksAndSeminars = ({onChange}) => {
                 label="Universidad/Lugar"
                 variant="outlined"
                 fullWidth
-                value={event.universityOrLocation}
+                name="universityOrLocation"
+                value={seminars.universityOrLocation}
                 onChange={(event) =>
-                  handleEventChange(
-                    index,
-                    "universityOrLocation",
-                    event.target.value
+                  handleSeminarsChange(
+                    event, index
                   )
                 }
               />
             </Grid>
           </Grid>
-        </div>
+          </AccordionDetails>
+        </Accordion>
       ))}
-      <Button variant="contained" onClick={handleAddEvent}>
+      <Button variant="contained" onClick={handleAddSeminars}>
         Añadir evento
       </Button>
     </div>

@@ -9,14 +9,16 @@ const MyDocument = ({ formData,photo }) => (
   
         </View>
         <Text style={styles.titlename}>
-          {formData.personalInfo.name +' '+formData.personalInfo.lastName}
+          {formData.name +' '+formData.lastname}
         </Text>
         <View style={styles.sectionimage}>
-          {photo && (
+          {photo ? (
               <Image
                 style={styles.image}
                 src={photo}
               />
+          ): (
+            <View style={styles.imagePlaceholder} />
           )}
         </View>
         <View style={styles.lineInfo}>
@@ -24,16 +26,16 @@ const MyDocument = ({ formData,photo }) => (
         </View>
         <View style={styles.sectioninfo}>
           <Text style={styles.sectiontext}>
-            Correo: {formData.personalInfo.email}
+            Correo: {formData.email}
           </Text>
           <Text style={styles.sectiontext}>
-            {formData.personalInfo.dniType +': '+formData.personalInfo.dni}
+            {formData.dniType +': '+formData.dni}
           </Text>
           <Text style={styles.sectiontext}>
-            Contacto: {formData.personalInfo.cellphone}
+            Contacto: {formData.cellphone}
           </Text>
           <Text style={styles.sectiontext}>
-            Distrito: {formData.personalInfo.department+'-'+formData.personalInfo.country}
+            Distrito: {formData.department+'-'+formData.country}
           </Text>
         </View>
         <View style={styles.line}>
@@ -43,7 +45,7 @@ const MyDocument = ({ formData,photo }) => (
           <Text style={styles.sectiontitle}>RESUMEN PROFESIONAL</Text>
           <View style={styles.sectionSumarry}>
             <Text style={styles.sectiontext}>
-              {formData.summaryInfo.summary}
+              {formData.summary}
             </Text>
           </View>
         </View>
@@ -53,7 +55,7 @@ const MyDocument = ({ formData,photo }) => (
         <View>
           <Text style={styles.sectiontitle}>EXPERIENCIA LABORAL</Text>
           <View style={styles.section}>
-          {formData.experienceInfo?.map((info, index) => (
+          {formData.workExperience?.map((info, index) => (
             <View key={index}>
               <Text style={styles.sectiontext}>
                 {info.company}
@@ -83,7 +85,7 @@ const MyDocument = ({ formData,photo }) => (
         <View>
           <Text style={styles.sectiontitle}>FORMACIÓN ACADÉMICA & COMPLEMENTARIA</Text>
           <View style={styles.section}>
-            {formData.academicInfo?.map((info, index) => {
+            {formData.education?.map((info, index) => {
               const institution = info.centerName || info.university;
               const course = info.courseName || info.career;
         
@@ -101,7 +103,7 @@ const MyDocument = ({ formData,photo }) => (
         <View>
           <Text style={styles.sectiontitle}>IDIOMAS, TECNOLOGÍAS Y SOFTWARE</Text>
           <View style={styles.section}>
-          {formData.idiomsInfo?.map((info, index) => (
+          {formData.knowledge?.map((info, index) => (
             <Text key={index} style={styles.sectiontext}>
               . {info.name+' - ('+info.level+')'}
             </Text>
@@ -114,7 +116,7 @@ const MyDocument = ({ formData,photo }) => (
         <View>
           <Text style={styles.sectiontitle}>LOGROS ACADÉMICOS Y PERSONALES</Text>
           <View style={styles.section}>
-          {formData.achievementsInfo?.map((info, index) => (
+          {formData.achievements?.map((info, index) => (
             <Text key={index} style={styles.sectiontext}>
               {info.description}
             </Text>
@@ -127,7 +129,7 @@ const MyDocument = ({ formData,photo }) => (
         <View>
           <Text style={styles.sectiontitle}>REFERENTES</Text>
           <View style={styles.section}>
-          {formData.referentsInfo?.map((info, index) => (
+          {formData.referents?.map((info, index) => (
             <View key={index}>
               <Text style={styles.sectiontext}>
                 Empresa: {info.companyReferent}

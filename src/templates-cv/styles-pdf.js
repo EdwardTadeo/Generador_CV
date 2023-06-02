@@ -86,5 +86,11 @@ export const styles = StyleSheet.create({
         top: 100,
         backgroundColor: '#BCA97E',
     },
+    imagePlaceholder: {
+        width: 130, // Estos valores deberían ser los mismos que los de styles.image
+        height: 150,
+        // Puedes agregar un color de fondo para visualizar el espacio reservado
+        backgroundColor: 'transparent' // O usar 'transparent' si quieres que sea invisible
+    },
   // Define other styles here
 });

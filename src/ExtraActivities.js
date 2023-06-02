@@ -1,50 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Button, Grid, TextField } from "@mui/material";
+import React from 'react';
+import { Button, Grid, TextField, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import "./ExtraActivities.css";
 
-const ExtraActivities = ({onChange}) => {
-  const [activitiesList, setActivitiesList] = useState([]);
-
-  useEffect(() => {
-    onChange(activitiesList);
-  }, [activitiesList, onChange]);
-
-  const handleAddActivity = () => {
-    const newActivity = {
-      organizationName: "",
-      organizationDescription: "",
-      startDate: "",
-      endDate: "",
-      position: "",
-      responsibilities: "",
-    };
-    setActivitiesList([...activitiesList, newActivity]);
-  };
-
-  const handleActivityChange = (index, field, value) => {
-    const updatedActivitiesList = [...activitiesList];
-    updatedActivitiesList[index][field] = value;
-    setActivitiesList(updatedActivitiesList);
-  };
-
+const ExtraActivities = ({extraActivities, handleAddExtraActivities, handleExtraActivitiesChange}) => {
   return (
-    <div className="extra-activities-container">
-      <h1>Actividades Extras o Voluntariado</h1>
-      {activitiesList.map((activity, index) => (
-        <div key={index} className="activity-form">
-          <Grid container spacing={2}>
+    <div>
+      {extraActivities.map((extraActivities, index) => (
+          <Accordion key={index} style={{marginBottom:'10px'}}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <InputLabel>{extraActivities.organizationName ? `${extraActivities.organizationName} - ${extraActivities.position}` : '(sin especificar)'}</InputLabel>
+          </AccordionSummary>
+          <AccordionDetails>
+          <Grid container spacing={2} className='activity-form'>
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Nombre de la Organización"
                 variant="outlined"
                 fullWidth
-                value={activity.organizationName}
+                name='organizationName'
+                value={extraActivities.organizationName}
                 onChange={(event) =>
-                  handleActivityChange(
-                    index,
-                    "organizationName",
-                    event.target.value
+                  handleExtraActivitiesChange(
+                    event,index
                   )
                 }
               />
@@ -54,12 +38,11 @@ const ExtraActivities = ({onChange}) => {
                 label="Descripción de la Organización"
                 variant="outlined"
                 fullWidth
-                value={activity.organizationDescription}
+                name='organizationDescription'
+                value={extraActivities.organizationDescription}
                 onChange={(event) =>
-                  handleActivityChange(
-                    index,
-                    "organizationDescription",
-                    event.target.value
+                  handleExtraActivitiesChange(
+                    event, index
                   )
                 }
               />
@@ -69,7 +52,8 @@ const ExtraActivities = ({onChange}) => {
                 label="Fecha de Inicio"
                 variant="outlined"
                 fullWidth
-                value={activity.startDate}
+                name='startDate'
+                value={extraActivities.startDate}
                 placeholder="Ej: 01/2001"
                 onChange={(event) => {
                   // Obtén el valor de la entrada
@@ -84,7 +68,12 @@ const ExtraActivities = ({onChange}) => {
                   // Límita la longitud de la entrada a 7 (incluyendo el "/")
                   if (value.length > 7) value = value.slice(0,7);
           
-                  handleActivityChange(index, "startDate", value);
+                  handleExtraActivitiesChange({
+                    target: {
+                      name: "startDate",
+                      value,
+                    },
+                  }, index);
                 }}
               />
             </Grid>
@@ -93,7 +82,8 @@ const ExtraActivities = ({onChange}) => {
                 label="Fecha de Fin"
                 variant="outlined"
                 fullWidth
-                value={activity.endDate}
+                name='endDate'
+                value={extraActivities.endDate}
                 placeholder="Ej: 01/2001"
                 onChange={(event) => {
                   // Obtén el valor de la entrada
@@ -108,7 +98,12 @@ const ExtraActivities = ({onChange}) => {
                   // Límita la longitud de la entrada a 7 (incluyendo el "/")
                   if (value.length > 7) value = value.slice(0,7);
           
-                  handleActivityChange(index, "endDate", value);
+                  handleExtraActivitiesChange({
+                    target: {
+                      name: "endDate",
+                      value,
+                    },
+                  }, index);
                 }}
               />
             </Grid>
@@ -117,9 +112,10 @@ const ExtraActivities = ({onChange}) => {
                 label="Cargo"
                 variant="outlined"
                 fullWidth
-                value={activity.position}
+                name='position'
+                value={extraActivities.position}
                 onChange={(event) =>
-                  handleActivityChange(index, "position", event.target.value)
+                  handleExtraActivitiesChange(event, index)
                 }
               />
             </Grid>
@@ -128,22 +124,22 @@ const ExtraActivities = ({onChange}) => {
                 label="Funciones"
                 variant="outlined"
                 fullWidth
-                value={activity.responsibilities}
+                name='responsibilities'
+                value={extraActivities.responsibilities}
                 onChange={(event) =>
-                  handleActivityChange(
-                    index,
-                    "responsibilities",
-                    event.target.value
+                  handleExtraActivitiesChange(
+                    event, index
                   )
                 }
               />
             </Grid>
           </Grid>
-        </div>
+          </AccordionDetails>
+          </Accordion>
       ))}
-      <Button variant="contained" onClick={handleAddActivity}>
-        Añadir actividad
-      </Button>
+        <Button variant="contained" onClick={handleAddExtraActivities}>
+          Añadir actividad
+        </Button>
     </div>
   );
 };

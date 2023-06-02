@@ -2,7 +2,7 @@ import React from 'react';
 import { Page, Text, View, Document, Image } from '@react-pdf/renderer';
 import { styles } from './styles-pdf';
 
-const MyDocument = ({ formData,photo }) => (
+const MyDocument = ({ formData, photo }) => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.box} fixed>
@@ -11,6 +11,16 @@ const MyDocument = ({ formData,photo }) => (
         <Text style={styles.titlename}>
           {formData.name +' '+formData.lastname}
         </Text>
+        <View style={styles.sectionimage}>
+          {photo ? (
+              <Image
+                style={styles.image}
+                src={photo}
+              />
+          ): (
+            <View style={styles.imagePlaceholder} />
+          )}
+        </View>
         <View style={styles.line}>
   
         </View>
@@ -31,36 +41,6 @@ const MyDocument = ({ formData,photo }) => (
             <Text style={styles.sectiontext}>
               {formData.summary}
             </Text>
-          </View>
-        </View>
-        <View style={styles.line}>
-  
-        </View>
-        <View>
-          <Text style={styles.sectiontitle}>EXPERIENCIA LABORAL</Text>
-          <View style={styles.section}>
-          {formData.workExperience?.map((info, index) => (
-            <View key={index}>
-              <Text style={styles.sectiontext}>
-                {info.company}
-              </Text>
-              <Text style={styles.sectiontext}>
-                Cargo: {info.jobTitle+'   ('+info.startDate+' - '+info.endDate+')'}
-              </Text>
-              <Text style={styles.sectiontext}>
-                  . Objetivo del Puesto:
-              </Text>
-              <Text style={styles.sectiontext}>
-                {info.objetive}
-              </Text>
-              <Text style={styles.sectiontext}>
-                  . Logros:
-              </Text>
-              <Text style={styles.sectiontext}>
-                 {info.achievements}
-              </Text>
-            </View>
-          ))}
           </View>
         </View>
         <View style={styles.line}>

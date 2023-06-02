@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Button } from '@mui/material';
-import { LanguageIcon } from '@mui/icons-material';
-import { PDFViewer } from '@react-pdf/renderer';
-import MyDocument from '../src/templates-cv/MyDocument'  // Asegúrate de importar tu componente de documento
+import { PDFViewer } from '@react-pdf/renderer';  // Asegúrate de importar tu componente de documento
 import CvWithoutExperience from '../src/templates-cv/CvWithoutExperiencie';
+import CvWithExperience from '../src/templates-cv/CvWithExperiencie';
+import CVjunior from '../src/templates-cv/CvJuniorExperiencie';
+import CVsenior from '../src/templates-cv/CvSeniorExperience';
 
 import PersonalDetails from './CVForm';
 import ProfessionalSummary from './ProfessionalSummary';
 import WorkExperience from './WorkExperience';
 import AcademicFormation from './AcademicFormation';
 import Knowledge from './Knowledge';
+import Achievements from './Achievements';
+import Referents from './Referents';
+import ExtraActivities from './ExtraActivities'
+import TalksAndSeminars from './TalksAndSeminars';
+import PhotoUploader from './PhotoUploader';
+
 
 const Generate = () => {
   const [sections, setSections] = useState([]);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  useEffect(() => {
+    const template = localStorage.getItem('selectedTemplate');
+    setSelectedTemplate(template);
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     lastname: '',
@@ -27,6 +39,11 @@ const Generate = () => {
     workExperience: [],
     education: [],
     knowledge: [],
+    achievements: [],
+    referents: [],
+    extraActivities: [],
+    seminars: [],
+    photo: null,
   });
   const addSection = (section) => {
     setSections([...sections, section]);
@@ -68,6 +85,45 @@ const Generate = () => {
     }));
   };
 
+  const handleAddAchievement = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      achievements: [
+        ...prevState.achievements,
+        { descripcion: '', },
+      ],
+    }));
+  };
+
+  const handleAddReferents = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      referents: [
+        ...prevState.referents,
+        { companyReferent: '', nameReferent: '', phoneReferent: '', position: '', },
+      ],
+    }));
+  };
+
+  const handleAddExtraActivities = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      extraActivities: [
+        ...prevState.extraActivities,
+        { organizationName: '', organizationDescription: '', startDate: '', endDate: '', position: '', responsibilities:'', },
+      ],
+    }));
+  };
+  const handleAddSeminars = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      seminars: [
+        ...prevState.seminars,
+        { eventName: '', universityOrLocation: '', },
+      ],
+    }));
+  };
+
   const handleWorkExperienceChange = (event, index) => {
     const { name, value } = event.target;
     setFormData(prevState => {
@@ -102,8 +158,69 @@ const Generate = () => {
       };
     });
   };
-  
 
+  const handleAchievementChange = (event, index) => {
+    const { name, value } = event.target;
+    setFormData(prevState => {
+      const AchievementList = [...prevState.achievements];
+      AchievementList[index][name] = value;
+      return {
+        ...prevState,
+        achievements: AchievementList,
+      };
+    });
+  };
+  const handleReferentChange = (event, index) => {
+    const { name, value } = event.target;
+    setFormData(prevState => {
+      const ReferentList = [...prevState.referents];
+      ReferentList[index][name] = value;
+      return {
+        ...prevState,
+        referents: ReferentList,
+      };
+    });
+  };
+
+  const handleExtraActivitiesChange = (event, index) => {
+    const { name, value } = event.target;
+    setFormData(prevState => {
+      const ExtraActivitiesList = [...prevState.extraActivities];
+      ExtraActivitiesList[index][name] = value;
+      return {
+        ...prevState,
+        extraActivities: ExtraActivitiesList,
+      };
+    });
+  };
+
+  const handleSeminarsChange = (event, index) => {
+    const { name, value } = event.target;
+    setFormData(prevState => {
+      const SeminarsList = [...prevState.seminars];
+      SeminarsList[index][name] = value;
+      return {
+        ...prevState,
+        seminars: SeminarsList,
+      };
+    });
+  };
+
+  console.log(selectedTemplate)
+  const renderPDF = () => {
+    switch (selectedTemplate) {
+      case '1':
+        return <CvWithoutExperience formData={formData} photo={formData.photo} />;
+      case '2':
+        return <CvWithExperience formData={formData} photo={formData.photo}/>;  
+      case '3':
+        return <CVjunior formData={formData} photo={formData.photo}/>;
+      case '4':
+        return <CVsenior formData={formData} photo={formData.photo}/>; 
+      default:
+        return null;
+    }
+  }
   return (
     <Grid container spacing={2} style={{ height: '100vh' }}>
       <Grid item xs={12} md={6} style={{ overflowY: 'auto', maxHeight: '100vh' }}>
@@ -113,19 +230,32 @@ const Generate = () => {
           <PersonalDetails formData={formData} handleChange={handleChange}/>
         </div>
         <div style={{padding: '16px 40px'}}>
+          <h2>Agregar fotografía para el CV</h2>
+          <PhotoUploader
+            onUpload={(photo) => {
+              setFormData({
+                ...formData,
+                photo,
+              });
+            }}
+          />
+        </div>
+        <div style={{padding: '16px 40px'}}>
           <h2>Resumen Profesional</h2>
           <p>Escribe de manera concisa y enérgica para interesar al reclutador. Destaca tu función, experiencia y tus logros más destacados, resaltando tus mejores cualidades y habilidades relevantes para el puesto.</p>
           <ProfessionalSummary formData={formData} handleChange={handleChange}/>
         </div>
-        <div style={{padding: '16px 40px'}}>
-          <h2>Experiencia Laboral</h2>
-          <p>Agrega tus empleos anteriores. Incluye el nombre de la empresa, tu cargo, el periodo de empleo y una breve descripción de tus responsabilidades y logros destacados en cada puesto.</p>
-          <WorkExperience
-            workExperience={formData.workExperience}
-            handleAddWorkExperience={handleAddWorkExperience}
-            handleWorkExperienceChange={handleWorkExperienceChange}
-          />
-        </div>
+        {selectedTemplate !== '1' && (
+          <div style={{padding: '16px 40px'}}>
+            <h2>Experiencia Laboral</h2>
+            <p>Agrega tus empleos anteriores. Incluye el nombre de la empresa, tu cargo, el periodo de empleo y una breve descripción de tus responsabilidades y logros destacados en cada puesto.</p>
+            <WorkExperience
+              workExperience={formData.workExperience}
+              handleAddWorkExperience={handleAddWorkExperience}
+              handleWorkExperienceChange={handleWorkExperienceChange}
+            />
+          </div>
+        )}
         <div style={{padding: '16px 40px'}}>
           <h2>Formación Academica</h2>
           <p>Agrega tus empleos anteriores. Incluye el nombre de la empresa, tu cargo, el periodo de empleo y una breve descripción de tus responsabilidades y logros destacados en cada puesto.</p>
@@ -135,35 +265,62 @@ const Generate = () => {
             handleEducationChange={handleEducationChange}
           />
         </div>
-        {sections.map((section, index) => {
-          switch(section) {
-            case 'Knowledge':
-              return (
-                <div style={{padding: '16px 40px'}} key={index}>
-                  <h2>Idiomas</h2>
-                  <Knowledge 
-                    knowledge={formData.knowledge} 
-                    handleAddKnowledge={handleAddKnowledge} 
-                    handleKnowledgeChange={handleKnowledgeChange} 
-                  />
-                </div>
-              )
-            // Agrega más casos aquí para otras secciones
-            default:
-              return null;
-          }
-        })}
+        {(selectedTemplate === '1' || selectedTemplate === '2') && (
         <div style={{padding: '16px 40px'}}>
-          <h2>Agregar Sección</h2>
-            <Button onClick={() => addSection('Knowledge')}>Idiomas</Button>
-          {/* Agrega más botones aquí para otras secciones */}
-      </div>
-
+          <h2>Actividades Extra Académicas y Voluntariados</h2>
+          <p>Agrega las actividades extracurriculares en las que hayas participado. Indica el nombre de la organización, el cargo que desempeñaste y tus funciones</p>
+          <ExtraActivities
+            extraActivities={formData.extraActivities}
+            handleAddExtraActivities={handleAddExtraActivities}
+            handleExtraActivitiesChange={handleExtraActivitiesChange}
+          />
+        </div>
+        )}
+          <div style={{padding: '16px 40px'}}>
+            <h2>Idiomas/Tecnología/ Programas</h2>
+            <p>Agrega los idiomas, tecnologías y progrmas que manejes. Indica la especilidad y tu nivel</p>
+            <Knowledge 
+            knowledge={formData.knowledge} 
+            handleAddKnowledge={handleAddKnowledge} 
+            handleKnowledgeChange={handleKnowledgeChange} 
+            />
+          </div>
+        <div style={{padding: '16px 40px'}}> 
+            <h2>Logros Académicos</h2>
+            <p>Agrega los logros que hayas obtenido en tu vida académica. Describe con detalle!!</p>
+            <Achievements
+                achievement={formData.achievements}
+                handleAddAchievement={handleAddAchievement}
+                handleAchievementChange={handleAchievementChange}
+            />
+        </div>
+        {selectedTemplate === '1' && (
+          <div style={{padding: '16px 40px'}}>
+            <h2>Charlas y Seminarios</h2>
+            <p>Agrega las charlas y seminarios a los que hayas asistido para fortalecer tu conocimientos</p>
+            <TalksAndSeminars
+              seminars={formData.seminars}
+              handleAddSeminars={handleAddSeminars}
+              handleSeminarsChange={handleSeminarsChange}
+            />
+          </div>
+        )}
+        {(selectedTemplate === '3' || selectedTemplate === '4') && (
+        <div>
+          <h2>Referencias Laborales</h2>
+          <p>Agrega las referencias para que los reclutadores puedan validar tu experiencia. Indica todos los datos necesarios para poder contactarlos</p>
+          <Referents
+            referents={formData.referents}
+            handleAddReferents={handleAddReferents}
+            handleReferentChange={handleReferentChange}
+          />
+        </div>
+        )}
       </Grid>
       <Grid item xs={12} md={6} style={{ overflowY: 'auto', maxHeight: '100vh' }}>
         {/* Aquí va la vista previa del PDF */}
         <PDFViewer style={{ width: '100%', height: '100%' }}>
-          <CvWithoutExperience formData={formData} />
+          {renderPDF()}
         </PDFViewer>
       </Grid>
     </Grid>
